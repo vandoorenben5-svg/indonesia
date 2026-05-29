@@ -1,0 +1,339 @@
+
+<h2 class="sr-only">Interactieve reiskaart van Indonesië — klik op een pin voor activiteiten per bestemming</h2>
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+#tapp { font-family: var(--font-sans); padding: 1rem 0 0.5rem; }
+.thdr { text-align: center; margin-bottom: 1rem; }
+.thdr h1 { font-size: 22px; font-weight: 500; color: var(--color-text-primary); }
+.thdr p { font-size: 13px; color: var(--color-text-secondary); margin-top: 4px; }
+.tstat { display: flex; justify-content: center; gap: 1rem; margin-top: 8px; flex-wrap: wrap; }
+.tstat span { font-size: 11px; color: var(--color-text-secondary); border: 0.5px solid var(--color-border-secondary); border-radius: 20px; padding: 2px 10px; }
+#mwrap { border-radius: var(--border-radius-lg); border: 0.5px solid var(--color-border-tertiary); overflow: hidden; margin-bottom: 1rem; cursor: default; }
+#mwrap svg { display: block; width: 100%; height: auto; }
+.ocean { fill: #B5D4F4; }
+.isl { fill: #C0DD97; stroke: #639922; stroke-width: 0.8; }
+@media (prefers-color-scheme: dark) {
+  .ocean { fill: #042C53; }
+  .isl { fill: #173404; stroke: #3B6D11; }
+}
+.mloc { cursor: pointer; }
+.mdot { transition: fill 0.15s; }
+.mlbl { font-size: 8px; font-weight: 500; text-anchor: middle; pointer-events: none; fill: var(--color-text-primary); paint-order: stroke; stroke: var(--color-background-primary); stroke-width: 2.5px; }
+@keyframes rpl { 0% { transform: scale(1); opacity: 0.6; } 100% { transform: scale(3.2); opacity: 0; } }
+.mpls { fill: none; stroke-width: 1.5; animation: rpl 2.2s ease-out infinite; transform-box: fill-box; transform-origin: center; }
+#spanel { display: none; background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1.25rem; margin-bottom: 0.75rem; }
+#spanel.open { display: block; }
+.sphead { display: flex; align-items: flex-start; justify-content: space-between; padding-bottom: 0.75rem; border-bottom: 0.5px solid var(--color-border-tertiary); margin-bottom: 0.75rem; }
+.spname { font-size: 18px; font-weight: 500; color: var(--color-text-primary); }
+.spsub { font-size: 12px; color: var(--color-text-secondary); margin-top: 3px; }
+.spx { background: none; border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); padding: 3px 10px; cursor: pointer; font-size: 12px; color: var(--color-text-secondary); }
+.spmeta { display: flex; gap: 7px; flex-wrap: wrap; margin-bottom: 0.75rem; }
+.sppill { font-size: 11px; padding: 3px 10px; border-radius: 20px; border: 0.5px solid var(--color-border-secondary); color: var(--color-text-secondary); display: flex; align-items: center; gap: 4px; }
+.sppill i { font-size: 13px; }
+.spalbl { font-size: 11px; font-weight: 500; color: var(--color-text-secondary); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 6px; }
+.spacts { display: grid; grid-template-columns: repeat(auto-fill, minmax(155px, 1fr)); gap: 6px; margin-bottom: 0; }
+.spact { display: flex; align-items: center; gap: 8px; padding: 7px 10px; background: var(--color-background-secondary); border-radius: var(--border-radius-md); font-size: 13px; color: var(--color-text-primary); }
+.spact i { font-size: 16px; color: var(--color-text-secondary); flex-shrink: 0; }
+.sptip { margin-top: 0.75rem; padding: 8px 12px; background: var(--color-background-info); border-radius: var(--border-radius-md); font-size: 12px; color: var(--color-text-info); }
+.snav { display: flex; justify-content: center; gap: 5px; flex-wrap: wrap; padding: 0.25rem 0 0.5rem; }
+.sndot { width: 8px; height: 8px; border-radius: 50%; background: var(--color-border-tertiary); cursor: pointer; border: none; padding: 0; transition: all 0.2s; }
+.sndot.on { background: var(--color-text-secondary); width: 22px; border-radius: 4px; }
+.snlbl { display: flex; justify-content: center; font-size: 11px; color: var(--color-text-secondary); margin-top: 3px; min-height: 15px; }
+</style>
+
+<div id="tapp">
+<div class="thdr">
+  <h1>🌴 Indonesië — Onze Reisroute</h1>
+  <p>Klik op een rode pin of gebruik de stippen hieronder om een bestemming te bekijken</p>
+  <div class="tstat">
+    <span>8 bestemmingen</span>
+    <span>5 eilandgroepen</span>
+    <span>1 onvergetelijke reis</span>
+  </div>
+</div>
+
+<div id="mwrap">
+<svg viewBox="0 0 820 360" xmlns="http://www.w3.org/2000/svg">
+  <rect class="ocean" x="0" y="0" width="820" height="360" rx="11"/>
+
+  <!-- SUMATRA -->
+  <path class="isl" d="M18,46 C42,26 82,20 122,30 C158,40 178,58 190,85 C205,115 212,155 210,195 C208,220 200,242 185,250 C165,255 140,248 115,232 C85,212 60,182 42,150 C24,118 10,78 18,46Z"/>
+  <ellipse class="isl" cx="90" cy="170" rx="8" ry="14" transform="rotate(-20,90,170)"/>
+  <path class="isl" d="M218,208 C227,204 236,206 238,215 C236,224 226,226 217,221 C211,216 212,210 218,208Z"/>
+
+  <!-- BORNEO -->
+  <path class="isl" d="M265,22 C310,6 372,4 418,20 C450,32 462,62 456,100 C448,142 428,175 398,195 C368,212 333,218 300,215 C265,208 236,190 220,163 C206,136 208,102 220,74 C232,48 248,32 265,22Z"/>
+
+  <!-- JAVA -->
+  <path class="isl" d="M208,255 C238,244 282,244 325,252 C360,260 375,273 370,286 C350,293 308,291 264,282 C226,274 210,265 208,255Z"/>
+
+  <!-- BALI -->
+  <path class="isl" d="M374,276 C383,270 393,272 396,280 C394,288 383,290 374,286 C368,282 369,277 374,276Z"/>
+
+  <!-- LOMBOK -->
+  <path class="isl" d="M400,277 C408,272 418,274 420,282 C418,290 408,293 399,288 C393,284 393,279 400,277Z"/>
+
+  <!-- SUMBAWA -->
+  <path class="isl" d="M425,278 C439,272 455,275 458,283 C456,291 441,294 426,290 C416,286 416,281 425,278Z"/>
+
+  <!-- FLORES + KOMODO -->
+  <path class="isl" d="M462,280 C480,274 505,277 510,286 C507,294 488,297 464,292 C452,288 453,283 462,280Z"/>
+
+  <!-- TIMOR -->
+  <path class="isl" d="M526,292 C552,286 580,288 585,298 C582,307 556,311 528,306 C516,301 518,295 526,292Z"/>
+
+  <!-- SULAWESI main -->
+  <path class="isl" d="M465,88 C480,74 506,76 515,96 C523,116 512,150 492,166 C476,180 456,172 450,153 C444,132 446,104 465,88Z"/>
+  <!-- NE arm -->
+  <path class="isl" d="M504,100 C522,86 547,88 554,106 C556,121 543,134 526,133 C512,131 503,117 504,100Z"/>
+  <!-- SW arm -->
+  <path class="isl" d="M458,152 C446,166 442,182 450,198 C457,213 472,217 480,208 C487,194 480,176 468,162Z"/>
+  <!-- SE arm -->
+  <path class="isl" d="M490,161 C506,163 524,174 529,190 C531,204 519,213 506,208 C493,203 487,188 490,161Z"/>
+
+  <!-- HALMAHERA -->
+  <path class="isl" d="M588,98 C600,86 616,88 620,106 C620,122 607,130 594,124 C583,117 582,108 588,98Z"/>
+  <path class="isl" d="M604,114 C616,110 628,116 628,128 C626,138 614,140 604,134 C598,128 598,118 604,114Z"/>
+
+  <!-- SERAM -->
+  <path class="isl" d="M614,190 C630,184 648,188 650,198 C648,208 630,212 615,206 C606,201 607,193 614,190Z"/>
+
+  <!-- WAIGEO / RAJA AMPAT -->
+  <path class="isl" d="M630,115 C640,107 656,109 658,122 C656,134 643,136 631,130 C622,124 623,118 630,115Z"/>
+  <circle class="isl" cx="618" cy="136" r="5"/>
+  <circle class="isl" cx="646" cy="143" r="4"/>
+
+  <!-- PAPUA -->
+  <path class="isl" d="M645,148 C668,130 704,126 733,136 C762,146 788,166 804,190 C818,212 818,244 806,265 C792,285 764,298 733,298 C702,298 675,286 657,266 C640,248 634,222 638,198 C640,176 636,162 645,148Z"/>
+  <path class="isl" d="M645,148 C634,140 628,130 634,120 C644,112 660,118 668,132 C659,140 652,146 645,148Z"/>
+
+  <!-- SMALL MALUKU -->
+  <circle class="isl" cx="566" cy="140" r="5"/>
+  <circle class="isl" cx="576" cy="162" r="4"/>
+  <circle class="isl" cx="558" cy="196" r="6"/>
+
+  <!-- ========== MARKERS ========== -->
+
+  <!-- 0: Lake Toba / Sumatra -->
+  <g class="mloc" onclick="showD(0)">
+    <circle class="mpls" cx="128" cy="118" r="5" stroke="#D85A30"/>
+    <circle class="mdot" cx="128" cy="118" r="5" fill="#D85A30"/>
+    <text class="mlbl" x="128" y="110">Lake Toba</text>
+  </g>
+
+  <!-- 1: Jakarta -->
+  <g class="mloc" onclick="showD(1)">
+    <circle class="mpls" cx="248" cy="258" r="5" stroke="#D85A30"/>
+    <circle class="mdot" cx="248" cy="258" r="5" fill="#D85A30"/>
+    <text class="mlbl" x="248" y="250">Jakarta</text>
+  </g>
+
+  <!-- 2: Yogyakarta -->
+  <g class="mloc" onclick="showD(2)">
+    <circle class="mpls" cx="324" cy="265" r="5" stroke="#D85A30"/>
+    <circle class="mdot" cx="324" cy="265" r="5" fill="#D85A30"/>
+    <text class="mlbl" x="324" y="257">Yogyakarta</text>
+  </g>
+
+  <!-- 3: Bali -->
+  <g class="mloc" onclick="showD(3)">
+    <circle class="mpls" cx="384" cy="280" r="5" stroke="#D85A30"/>
+    <circle class="mdot" cx="384" cy="280" r="5" fill="#D85A30"/>
+    <text class="mlbl" x="384" y="272">Bali</text>
+  </g>
+
+  <!-- 4: Lombok -->
+  <g class="mloc" onclick="showD(4)">
+    <circle class="mpls" cx="409" cy="282" r="5" stroke="#D85A30"/>
+    <circle class="mdot" cx="409" cy="282" r="5" fill="#D85A30"/>
+    <text class="mlbl" x="420" y="274">Lombok</text>
+  </g>
+
+  <!-- 5: Komodo -->
+  <g class="mloc" onclick="showD(5)">
+    <circle class="mpls" cx="484" cy="286" r="5" stroke="#D85A30"/>
+    <circle class="mdot" cx="484" cy="286" r="5" fill="#D85A30"/>
+    <text class="mlbl" x="484" y="278">Komodo</text>
+  </g>
+
+  <!-- 6: Sulawesi -->
+  <g class="mloc" onclick="showD(6)">
+    <circle class="mpls" cx="483" cy="128" r="5" stroke="#D85A30"/>
+    <circle class="mdot" cx="483" cy="128" r="5" fill="#D85A30"/>
+    <text class="mlbl" x="483" y="120">Sulawesi</text>
+  </g>
+
+  <!-- 7: Raja Ampat -->
+  <g class="mloc" onclick="showD(7)">
+    <circle class="mpls" cx="643" cy="122" r="5" stroke="#D85A30"/>
+    <circle class="mdot" cx="643" cy="122" r="5" fill="#D85A30"/>
+    <text class="mlbl" x="643" y="114">Raja Ampat</text>
+  </g>
+
+</svg>
+</div>
+
+<div id="spanel"></div>
+
+<div class="snav" id="snav"></div>
+<div class="snlbl" id="snlbl"></div>
+
+</div>
+
+<script>
+const DS = [
+  {
+    name: 'Lake Toba, Sumatra', sub: 'Grootste vulkaanmeer ter wereld',
+    best: 'Jun–Sep', days: '3–4 dagen', type: 'Natuur & cultuur',
+    tip: 'Verblijf in een traditioneel Batak huis op Samosir eiland voor echte authenticiteit!',
+    acts: [
+      ['ti-waves','Zwemmen in het kratermeer'],
+      ['ti-home','Traditioneel Batak dorp bezoek'],
+      ['ti-mountain','Hiken op Samosir eiland'],
+      ['ti-music','Traditionele Batak muziek & dans'],
+      ['ti-fish','Vers gerookte Toba meervissen'],
+      ['ti-camera','Panoramafoto\'s vulkaan caldera'],
+    ]
+  },
+  {
+    name: 'Jakarta', sub: 'Bruisende metropool van Java',
+    best: 'Mei–Sep', days: '2–3 dagen', type: 'Stad & food',
+    tip: 'Ga vroeg naar Kota Tua (Oud Batavia) voordat de toeristenmassa arriveert!',
+    acts: [
+      ['ti-tower','Nationaal Monument (Monas)'],
+      ['ti-building','Kota Tua — Oud Batavia'],
+      ['ti-anchor','Duizend Eilanden dagtour'],
+      ['ti-star','Gado-gado & soto betawi proeven'],
+      ['ti-shopping-bag','Grand Indonesia winkelcentrum'],
+      ['ti-camera','Nationaal Museum Jakarta'],
+    ]
+  },
+  {
+    name: 'Yogyakarta', sub: 'Culturele hoofdstad van Java',
+    best: 'Mei–Sep', days: '3–4 dagen', type: 'Tempels & kunst',
+    tip: 'Boek een zonsopgangsbezoek aan Borobudur — de mooiste tempel ter wereld!',
+    acts: [
+      ['ti-building','Borobudur — 9e eeuws boeddhistisch tempel'],
+      ['ti-building','Prambanan hindoe-tempel'],
+      ['ti-crown','Kraton Sultanenpaleis bezoek'],
+      ['ti-palette','Batik workshop zelf meedraaien'],
+      ['ti-flame','Mount Merapi vulkaantour'],
+      ['ti-shopping-bag','Malioboro marktstraat slenteren'],
+    ]
+  },
+  {
+    name: 'Bali', sub: 'Eiland der Goden',
+    best: 'Apr–Okt', days: '5–7 dagen', type: 'Cultuur & natuur',
+    tip: 'Huur een scooter om de rijstterrassen van Tegallalang bij zonsopgang te verkennen!',
+    acts: [
+      ['ti-building','Tanah Lot & Uluwatu tempel'],
+      ['ti-plant','Rijstterrassen Tegallalang (Ubud)'],
+      ['ti-waves','Surfen in Kuta & Seminyak'],
+      ['ti-heart','Balinese spa & yoga retreat'],
+      ['ti-mountain','Zonsopgang op Mount Agung'],
+      ['ti-star','Nasi goreng & babi guling proeven'],
+    ]
+  },
+  {
+    name: 'Lombok & Gili Eilanden', sub: 'Strand, snorkelen & vulkaan',
+    best: 'Apr–Nov', days: '4–6 dagen', type: 'Strand & duiken',
+    tip: 'De Gili-eilanden zijn autovrij — ontdek ze per fiets of cidomo (paardenkar)!',
+    acts: [
+      ['ti-waves','Snorkelen bij Gili Trawangan'],
+      ['ti-mountain','Mount Rinjani trekking (3726m)'],
+      ['ti-sun','Senggigi & Kuta strand'],
+      ['ti-eye','Duiken bij Gili Meno'],
+      ['ti-users','Traditioneel Sasak dorp bezoek'],
+      ['ti-star','Zonsondergang bij Gili Air'],
+    ]
+  },
+  {
+    name: 'Komodo Nationaal Park', sub: 'Draken, duiken & roze strand',
+    best: 'Apr–Dec', days: '2–3 dagen', type: 'Wildlife & duiken',
+    tip: 'Boek een liveaboard voor de allerbeste duikervaringen rondom de eilanden!',
+    acts: [
+      ['ti-eye','Komodovaranen spotten'],
+      ['ti-sun','Pink Beach — roze zandstrand'],
+      ['ti-waves','Wereld-top scuba duiken'],
+      ['ti-fish','Snorkelen met mantaroggen'],
+      ['ti-mountain','Zonsopgang Padar eiland'],
+      ['ti-ship','Traditionele Phinisi boot cruise'],
+    ]
+  },
+  {
+    name: 'Sulawesi', sub: 'Toraja cultuur & Bunaken duiken',
+    best: 'Apr–Okt', days: '5–7 dagen', type: 'Cultuur & duiken',
+    tip: 'Bezoek Tana Toraja voor de unieke traditionele tongkonan huizen en begrafenisrituelen!',
+    acts: [
+      ['ti-home','Traditionele Toraja tongkonan huizen'],
+      ['ti-waves','Bunaken NP — wereld-top duiken'],
+      ['ti-fish','Makassar vismarkt & zeevruchten'],
+      ['ti-mountain','Lore Lindu NP trektocht'],
+      ['ti-camera','Rammang-rammang karstgebied'],
+      ['ti-star','Coto Makassar & konro proeven'],
+    ]
+  },
+  {
+    name: 'Raja Ampat', sub: 'Biodiversiteitshotspot #1 ter wereld',
+    best: 'Okt–Apr', days: '7–10 dagen', type: 'Duiken & natuur',
+    tip: 'Sta vroeg op voor de paradijsvogel-vogelshow in de bomen bij Waigeo eiland!',
+    acts: [
+      ['ti-waves','Wereld-klasse duiken & snorkelen'],
+      ['ti-fish','Walvishaai & manta\'s spotten'],
+      ['ti-feather','Paradijsvogels vogelkijken'],
+      ['ti-map-pin','Kayak door karst boogjes'],
+      ['ti-home','Overwater bungalow verblijf'],
+      ['ti-moon','Bioluminescent plankton nacht'],
+    ]
+  },
+];
+
+let cur = -1;
+
+function showD(i) {
+  cur = i;
+  const d = DS[i];
+  document.querySelectorAll('.mdot').forEach((el, j) => el.setAttribute('fill', j === i ? '#185FA5' : '#D85A30'));
+  document.querySelectorAll('.mpls').forEach((el, j) => el.setAttribute('stroke', j === i ? '#185FA5' : '#D85A30'));
+  document.querySelectorAll('.sndot').forEach((el, j) => el.classList.toggle('on', j === i));
+  document.getElementById('snlbl').textContent = d.name;
+
+  const p = document.getElementById('spanel');
+  p.innerHTML =
+    '<div class="sphead">' +
+      '<div><div class="spname">' + d.name + '</div><div class="spsub">' + d.sub + '</div></div>' +
+      '<button class="spx" onclick="closeD()">✕ sluiten</button>' +
+    '</div>' +
+    '<div class="spmeta">' +
+      '<span class="sppill"><i class="ti ti-calendar" aria-hidden="true"></i>' + d.best + '</span>' +
+      '<span class="sppill"><i class="ti ti-clock" aria-hidden="true"></i>' + d.days + '</span>' +
+      '<span class="sppill"><i class="ti ti-star" aria-hidden="true"></i>' + d.type + '</span>' +
+    '</div>' +
+    '<div class="spalbl">Activiteiten &amp; hoogtepunten</div>' +
+    '<div class="spacts">' +
+      d.acts.map(function(a) { return '<div class="spact"><i class="ti ' + a[0] + '" aria-hidden="true"></i>' + a[1] + '</div>'; }).join('') +
+    '</div>' +
+    '<div class="sptip"><i class="ti ti-bulb" style="font-size:14px;vertical-align:-2px;margin-right:6px" aria-hidden="true"></i>Tip: ' + d.tip + '</div>';
+  p.classList.add('open');
+}
+
+function closeD() {
+  cur = -1;
+  document.getElementById('spanel').classList.remove('open');
+  document.querySelectorAll('.mdot').forEach(function(el) { el.setAttribute('fill', '#D85A30'); });
+  document.querySelectorAll('.mpls').forEach(function(el) { el.setAttribute('stroke', '#D85A30'); });
+  document.querySelectorAll('.sndot').forEach(function(el) { el.classList.remove('on'); });
+  document.getElementById('snlbl').textContent = '';
+}
+
+var nav = document.getElementById('snav');
+DS.forEach(function(d, i) {
+  var b = document.createElement('button');
+  b.className = 'sndot';
+  b.title = d.name;
+  b.setAttribute('aria-label', d.name);
+  b.addEventListener('click', function() { showD(i); });
+  nav.appendChild(b);
+});
+</script>
