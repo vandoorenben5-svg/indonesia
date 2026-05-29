@@ -1,339 +1,608 @@
 
-<h2 class="sr-only">Interactieve reiskaart van Indonesië — klik op een pin voor activiteiten per bestemming</h2>
-
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java & Sumatra — 13 Juli t/m 2 Augustus 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-#tapp { font-family: var(--font-sans); padding: 1rem 0 0.5rem; }
-.thdr { text-align: center; margin-bottom: 1rem; }
-.thdr h1 { font-size: 22px; font-weight: 500; color: var(--color-text-primary); }
-.thdr p { font-size: 13px; color: var(--color-text-secondary); margin-top: 4px; }
-.tstat { display: flex; justify-content: center; gap: 1rem; margin-top: 8px; flex-wrap: wrap; }
-.tstat span { font-size: 11px; color: var(--color-text-secondary); border: 0.5px solid var(--color-border-secondary); border-radius: 20px; padding: 2px 10px; }
-#mwrap { border-radius: var(--border-radius-lg); border: 0.5px solid var(--color-border-tertiary); overflow: hidden; margin-bottom: 1rem; cursor: default; }
-#mwrap svg { display: block; width: 100%; height: auto; }
-.ocean { fill: #B5D4F4; }
-.isl { fill: #C0DD97; stroke: #639922; stroke-width: 0.8; }
-@media (prefers-color-scheme: dark) {
-  .ocean { fill: #042C53; }
-  .isl { fill: #173404; stroke: #3B6D11; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ocean:#0e3f6e;--coral:#e76f51;--coral-dark:#c45c41;
+  --green:#2d6a4f;--green-light:#40916c;
+  --sky:#a8dadc;--text:#1a1a2e;--muted:#5a6475;
+  --bg:#f0f4f8;--card:#ffffff;
 }
-.mloc { cursor: pointer; }
-.mdot { transition: fill 0.15s; }
-.mlbl { font-size: 8px; font-weight: 500; text-anchor: middle; pointer-events: none; fill: var(--color-text-primary); paint-order: stroke; stroke: var(--color-background-primary); stroke-width: 2.5px; }
-@keyframes rpl { 0% { transform: scale(1); opacity: 0.6; } 100% { transform: scale(3.2); opacity: 0; } }
-.mpls { fill: none; stroke-width: 1.5; animation: rpl 2.2s ease-out infinite; transform-box: fill-box; transform-origin: center; }
-#spanel { display: none; background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1.25rem; margin-bottom: 0.75rem; }
-#spanel.open { display: block; }
-.sphead { display: flex; align-items: flex-start; justify-content: space-between; padding-bottom: 0.75rem; border-bottom: 0.5px solid var(--color-border-tertiary); margin-bottom: 0.75rem; }
-.spname { font-size: 18px; font-weight: 500; color: var(--color-text-primary); }
-.spsub { font-size: 12px; color: var(--color-text-secondary); margin-top: 3px; }
-.spx { background: none; border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); padding: 3px 10px; cursor: pointer; font-size: 12px; color: var(--color-text-secondary); }
-.spmeta { display: flex; gap: 7px; flex-wrap: wrap; margin-bottom: 0.75rem; }
-.sppill { font-size: 11px; padding: 3px 10px; border-radius: 20px; border: 0.5px solid var(--color-border-secondary); color: var(--color-text-secondary); display: flex; align-items: center; gap: 4px; }
-.sppill i { font-size: 13px; }
-.spalbl { font-size: 11px; font-weight: 500; color: var(--color-text-secondary); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 6px; }
-.spacts { display: grid; grid-template-columns: repeat(auto-fill, minmax(155px, 1fr)); gap: 6px; margin-bottom: 0; }
-.spact { display: flex; align-items: center; gap: 8px; padding: 7px 10px; background: var(--color-background-secondary); border-radius: var(--border-radius-md); font-size: 13px; color: var(--color-text-primary); }
-.spact i { font-size: 16px; color: var(--color-text-secondary); flex-shrink: 0; }
-.sptip { margin-top: 0.75rem; padding: 8px 12px; background: var(--color-background-info); border-radius: var(--border-radius-md); font-size: 12px; color: var(--color-text-info); }
-.snav { display: flex; justify-content: center; gap: 5px; flex-wrap: wrap; padding: 0.25rem 0 0.5rem; }
-.sndot { width: 8px; height: 8px; border-radius: 50%; background: var(--color-border-tertiary); cursor: pointer; border: none; padding: 0; transition: all 0.2s; }
-.sndot.on { background: var(--color-text-secondary); width: 22px; border-radius: 4px; }
-.snlbl { display: flex; justify-content: center; font-size: 11px; color: var(--color-text-secondary); margin-top: 3px; min-height: 15px; }
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(14,63,110,0.97);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:space-between;padding:0 2rem;height:56px;border-bottom:1px solid rgba(255,255,255,0.1)}
+.nav-logo{font-family:'Playfair Display',serif;font-size:16px;color:#fff;font-style:italic}
+.nav-links{display:flex;gap:4px;list-style:none}
+.nav-links a{padding:5px 12px;font-size:12px;color:rgba(255,255,255,0.7);text-decoration:none;border-radius:6px;transition:all .2s;font-weight:500}
+.nav-links a:hover,.nav-links a.active{background:rgba(255,255,255,0.15);color:#fff}
+
+.slide{min-height:100vh;padding-top:56px;display:flex;flex-direction:column}
+
+/* COVER */
+#slide-cover{background:linear-gradient(160deg,#0e3f6e 0%,#1a6b8a 55%,#2d9e8f 100%);position:relative;overflow:hidden;justify-content:center;align-items:center;text-align:center}
+#slide-cover::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E")}
+.cover-content{position:relative;z-index:1;padding:2.5rem 2rem;max-width:740px}
+.cover-badge{display:inline-block;font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,0.7);border:1px solid rgba(255,255,255,0.25);border-radius:20px;padding:5px 16px;margin-bottom:1.25rem}
+.cover-title{font-family:'Playfair Display',serif;font-size:clamp(38px,7vw,68px);font-weight:700;color:#fff;line-height:1.1;margin-bottom:.75rem}
+.cover-subtitle{font-size:17px;color:rgba(255,255,255,0.75);margin-bottom:1.5rem;line-height:1.6}
+
+.date-bar{display:inline-flex;align-items:center;gap:0;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);border-radius:40px;padding:4px;margin-bottom:2rem}
+.date-chip{padding:8px 20px;font-size:14px;font-weight:600;color:#fff;border-radius:36px}
+.date-chip.active{background:var(--coral)}
+.date-arrow{color:rgba(255,255,255,0.5);font-size:18px;padding:0 4px}
+.date-nights{font-size:12px;color:rgba(255,255,255,0.6);padding:0 14px}
+
+.cover-icons{display:flex;justify-content:center;gap:1.5rem;flex-wrap:wrap;margin-bottom:2rem}
+.ci{display:flex;flex-direction:column;align-items:center;gap:5px}
+.ci-icon{font-size:26px}
+.ci-lbl{font-size:11px;color:rgba(255,255,255,0.6);font-weight:500}
+
+.cover-stats{display:flex;justify-content:center;gap:2rem;flex-wrap:wrap;margin-bottom:2.5rem}
+.stat-num{font-family:'Playfair Display',serif;font-size:34px;font-weight:700;color:#fff;display:block}
+.stat-lbl{font-size:12px;color:rgba(255,255,255,0.6)}
+.cover-btn{display:inline-block;background:var(--coral);color:#fff;font-size:14px;font-weight:600;padding:13px 30px;border-radius:40px;text-decoration:none;transition:all .2s}
+.cover-btn:hover{background:var(--coral-dark);transform:translateY(-2px)}
+.cover-scroll{position:absolute;bottom:1.5rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:5px;color:rgba(255,255,255,0.45);font-size:11px;animation:bounce 2s infinite}
+.cover-scroll svg{width:18px;height:18px}
+@keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
+
+/* TIMELINE */
+#slide-timeline{background:#fff;padding-bottom:3rem}
+.slide-header{padding:3rem 2rem 1.5rem;text-align:center}
+.slide-label{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--coral);margin-bottom:.5rem}
+.slide-title{font-family:'Playfair Display',serif;font-size:clamp(24px,4vw,38px);font-weight:700;color:var(--text);line-height:1.2;margin-bottom:.75rem}
+.slide-desc{font-size:14px;color:var(--muted);max-width:540px;margin:0 auto}
+
+.timeline{max-width:900px;margin:0 auto;padding:0 1.5rem;position:relative}
+.timeline::before{content:'';position:absolute;left:50%;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,var(--coral),var(--ocean));transform:translateX(-50%)}
+.tl-item{display:flex;gap:2rem;margin-bottom:1.5rem;position:relative}
+.tl-item:nth-child(even){flex-direction:row-reverse}
+.tl-side{flex:1;display:flex;justify-content:flex-end}
+.tl-item:nth-child(even) .tl-side{justify-content:flex-start}
+.tl-card{background:var(--card);border:1px solid #dde4ed;border-radius:14px;padding:1rem 1.25rem;max-width:340px;width:100%;box-shadow:0 2px 12px rgba(0,0,0,0.06);transition:box-shadow .2s}
+.tl-card:hover{box-shadow:0 4px 20px rgba(0,0,0,0.1)}
+.tl-dot{position:absolute;left:50%;top:1rem;transform:translateX(-50%);width:14px;height:14px;border-radius:50%;border:2px solid #fff;z-index:1;box-shadow:0 0 0 2px var(--coral)}
+.tl-dot.java{box-shadow:0 0 0 2px var(--ocean)}
+.tl-dot.sumatra{box-shadow:0 0 0 2px var(--green)}
+.tl-dot.travel{background:#fff!important;box-shadow:0 0 0 2px var(--muted)}
+.tl-date{font-size:11px;font-weight:700;color:var(--coral);letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px}
+.tl-date.java{color:var(--ocean)}
+.tl-date.sumatra{color:var(--green)}
+.tl-date.travel{color:var(--muted)}
+.tl-name{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--text);margin-bottom:4px}
+.tl-acts{font-size:12.5px;color:var(--muted);line-height:1.6}
+.tl-tag{display:inline-flex;align-items:center;gap:4px;font-size:11px;background:#f3f6fa;border:1px solid #dde4ed;border-radius:10px;padding:2px 8px;margin:3px 3px 0 0;color:var(--muted)}
+.tl-spacer{flex:1}
+
+/* MAP */
+#slide-map{background:#f8fafc;padding-bottom:3rem}
+.map-container{max-width:960px;margin:0 auto;padding:0 1.5rem}
+.map-wrap{border-radius:16px;overflow:hidden;box-shadow:0 4px 32px rgba(0,0,0,0.12);margin-bottom:1.5rem;border:1px solid #dde4ed}
+.map-wrap svg{display:block;width:100%;height:auto}
+.ocean-bg{fill:#b6d8f2}
+.isl{fill:#c8e6c9;stroke:#558b2f;stroke-width:.8}
+.isl-dim{fill:#dde8d0;stroke:#8aaa70;stroke-width:.5;opacity:.45}
+.mloc{cursor:pointer}
+.mdot{transition:fill .15s,r .15s}
+.mlbl{font-size:9px;font-weight:600;text-anchor:middle;pointer-events:none;font-family:'Inter',sans-serif;fill:#1a1a2e;paint-order:stroke;stroke:rgba(248,250,252,0.92);stroke-width:2.5px}
+@keyframes rpl{0%{transform:scale(1);opacity:.7}100%{transform:scale(3.5);opacity:0}}
+.mpls{fill:none;stroke-width:1.5;animation:rpl 2.2s ease-out infinite;transform-box:fill-box;transform-origin:center}
+
+.info-panel{display:none;max-width:960px;margin:0 auto 1rem;padding:0 1.5rem}
+.info-panel.open{display:block}
+.info-inner{background:#fff;border-radius:16px;box-shadow:0 4px 24px rgba(0,0,0,0.1);border:1px solid #dde4ed;overflow:hidden}
+.info-top{padding:1.5rem 1.75rem;display:flex;align-items:flex-start;justify-content:space-between;gap:1rem}
+.info-island{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.65);margin-bottom:4px}
+.info-name{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:#fff}
+.info-sub{font-size:13px;color:rgba(255,255,255,.75);margin-top:3px}
+.info-close{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:8px;padding:6px 14px;cursor:pointer;font-size:13px;font-family:'Inter',sans-serif;flex-shrink:0;transition:background .2s}
+.info-close:hover{background:rgba(255,255,255,.25)}
+.info-body{padding:1.5rem 1.75rem}
+.info-meta{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1.25rem}
+.meta-pill{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:500;color:var(--muted);background:#f3f6fa;border:1px solid #dde4ed;border-radius:20px;padding:4px 12px}
+.meta-pill svg{width:13px;height:13px;flex-shrink:0}
+.info-section-title{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.acts-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(195px,1fr));gap:7px;margin-bottom:1.25rem}
+.act-item{display:flex;align-items:center;gap:9px;padding:9px 12px;background:#f8fafc;border:1px solid #edf1f7;border-radius:10px;font-size:13px;color:var(--text)}
+.act-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.food-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1.25rem}
+.food-chip{font-size:12px;background:#fff8e8;border:1px solid #f0d080;border-radius:20px;padding:4px 12px;color:#7a5c10;display:flex;align-items:center;gap:5px}
+.stay-box{background:#edf7f1;border:1px solid #9ed8b8;border-radius:10px;padding:10px 14px;font-size:13px;color:#1b5e3b;margin-bottom:1.25rem;display:flex;align-items:flex-start;gap:8px}
+.tip-box{background:#fff8e8;border:1px solid #f0d080;border-radius:10px;padding:10px 14px;font-size:13px;color:#7a5c10;display:flex;align-items:flex-start;gap:8px}
+
+.map-nav{display:flex;align-items:center;justify-content:center;gap:6px;padding:.5rem 1.5rem;flex-wrap:wrap}
+.map-nav-dot{height:30px;border-radius:15px;background:#dde4ed;border:none;cursor:pointer;font-size:12px;font-weight:500;color:var(--muted);padding:0 12px;transition:all .2s;font-family:'Inter',sans-serif}
+.map-nav-dot:hover{background:#c8d5e8;color:var(--text)}
+.map-nav-dot.on{color:#fff;padding:0 16px}
+
+/* ROUTE CARDS */
+#slide-route{background:#fff;padding-bottom:4rem}
+.route-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1.1rem;max-width:1000px;margin:0 auto;padding:0 2rem}
+.route-card{background:var(--card);border:1px solid #dde4ed;border-radius:14px;padding:1.1rem 1.25rem;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
+.route-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;transform:scaleX(0);transform-origin:left;transition:transform .25s}
+.route-card:hover{box-shadow:0 6px 24px rgba(0,0,0,0.1);transform:translateY(-2px);border-color:#b0c4de}
+.route-card:hover::before{transform:scaleX(1)}
+.rc-island{font-size:10px;font-weight:700;color:#fff;border-radius:10px;padding:2px 8px;display:inline-block;margin-bottom:5px}
+.rc-dates{font-size:11px;font-weight:600;color:var(--coral);letter-spacing:.06em;text-transform:uppercase;margin-bottom:3px}
+.rc-name{font-family:'Playfair Display',serif;font-size:19px;font-weight:700;color:var(--text);margin-bottom:3px}
+.rc-sub{font-size:12px;color:var(--muted);margin-bottom:10px}
+.rc-meta{display:flex;gap:6px;flex-wrap:wrap}
+.rc-pill{font-size:11px;color:var(--muted);background:#f3f6fa;border:1px solid #dde4ed;border-radius:12px;padding:2px 9px}
+.rc-acts{margin-top:9px;padding-top:9px;border-top:1px solid #edf1f7}
+.rc-act{font-size:12px;color:var(--muted);padding:2px 0;display:flex;align-items:center;gap:6px}
+.rc-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+.rc-highlight{font-size:11px;margin-top:6px;padding:4px 8px;border-radius:8px;display:inline-block;font-weight:500}
+
+/* TIPS */
+#slide-tips{background:linear-gradient(160deg,#0e3f6e 0%,#1a6b8a 100%);padding-bottom:4rem}
+#slide-tips .slide-label{color:var(--sky)}
+#slide-tips .slide-title{color:#fff}
+#slide-tips .slide-desc{color:rgba(255,255,255,.65)}
+.tips-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:1rem;max-width:960px;margin:0 auto;padding:0 2rem}
+.tip-card{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:14px;padding:1.1rem 1.25rem;transition:background .2s}
+.tip-card:hover{background:rgba(255,255,255,.15)}
+.tip-card-icon{font-size:26px;margin-bottom:8px;display:block}
+.tip-card-title{font-size:14px;font-weight:600;color:#fff;margin-bottom:5px}
+.tip-card-text{font-size:13px;color:rgba(255,255,255,.7);line-height:1.6}
+
+footer{background:#0a2d52;color:rgba(255,255,255,.5);text-align:center;padding:1.5rem;font-size:13px}
+footer span{color:var(--coral)}
+
+@media(max-width:640px){
+  nav{padding:0 1rem}
+  .nav-links{display:none}
+  .timeline::before{left:20px}
+  .tl-item,.tl-item:nth-child(even){flex-direction:column}
+  .tl-side,.tl-item:nth-child(even) .tl-side{justify-content:flex-start}
+  .tl-dot{left:20px}
+  .tl-card{max-width:100%;margin-left:44px}
+  .tl-spacer{display:none}
+  .acts-grid{grid-template-columns:1fr}
+  .info-top{flex-direction:column}
+}
 </style>
+</head>
+<body>
 
-<div id="tapp">
-<div class="thdr">
-  <h1>🌴 Indonesië — Onze Reisroute</h1>
-  <p>Klik op een rode pin of gebruik de stippen hieronder om een bestemming te bekijken</p>
-  <div class="tstat">
-    <span>8 bestemmingen</span>
-    <span>5 eilandgroepen</span>
-    <span>1 onvergetelijke reis</span>
+<nav>
+  <div class="nav-logo">🌴 Java & Sumatra — Juli/Augustus 2026</div>
+  <ul class="nav-links">
+    <li><a href="#slide-cover" class="active">Home</a></li>
+    <li><a href="#slide-timeline">Planning</a></li>
+    <li><a href="#slide-map">Kaart</a></li>
+    <li><a href="#slide-route">Bestemmingen</a></li>
+    <li><a href="#slide-tips">Tips</a></li>
+  </ul>
+</nav>
+
+<!-- COVER -->
+<section class="slide" id="slide-cover">
+  <div class="cover-content">
+    <div class="cover-badge">✈ Witjes on Tour 2026</div>
+    <h1 class="cover-title">Java &amp;<br>Sumatra</h1>
+    <p class="cover-subtitle">Vulkanen, orang-oetans, tempels, snorkelen<br>en rijkelijk lokaal eten — 21 dagen avontuur!</p>
+
+    <div class="date-bar">
+      <div class="date-chip active">13 Juli</div>
+      <div class="date-arrow">→</div>
+      <div class="date-nights">21 nachten</div>
+      <div class="date-arrow">→</div>
+      <div class="date-chip active">2 Augustus</div>
+    </div>
+
+    <div class="cover-icons">
+      <div class="ci"><div class="ci-icon">🦧</div><div class="ci-lbl">Orang-oetans</div></div>
+      <div class="ci"><div class="ci-icon">🤿</div><div class="ci-lbl">Snorkelen</div></div>
+      <div class="ci"><div class="ci-icon">🏎️</div><div class="ci-lbl">Quad & Buggy</div></div>
+      <div class="ci"><div class="ci-icon">🏠</div><div class="ci-lbl">Homestay</div></div>
+      <div class="ci"><div class="ci-icon">🍜</div><div class="ci-lbl">Street food</div></div>
+      <div class="ci"><div class="ci-icon">🌋</div><div class="ci-lbl">Vulkanen</div></div>
+    </div>
+
+    <div class="cover-stats">
+      <div><span class="stat-num">8</span><span class="stat-lbl">bestemmingen</span></div>
+      <div><span class="stat-num">21</span><span class="stat-lbl">dagen</span></div>
+      <div><span class="stat-num">2</span><span class="stat-lbl">eilanden</span></div>
+    </div>
+    <a href="#slide-timeline" class="cover-btn">Bekijk de planning ↓</a>
   </div>
-</div>
+  <div class="cover-scroll">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+    scroll
+  </div>
+</section>
 
-<div id="mwrap">
-<svg viewBox="0 0 820 360" xmlns="http://www.w3.org/2000/svg">
-  <rect class="ocean" x="0" y="0" width="820" height="360" rx="11"/>
+<!-- TIMELINE -->
+<section class="slide" id="slide-timeline">
+  <div class="slide-header">
+    <div class="slide-label">Dag voor dag</div>
+    <h2 class="slide-title">De Reisplanning</h2>
+    <p class="slide-desc">13 Juli t/m 2 Augustus — klik op een kaart voor meer details over die bestemming.</p>
+  </div>
+  <div class="timeline" id="timeline"></div>
+</section>
 
-  <!-- SUMATRA -->
-  <path class="isl" d="M18,46 C42,26 82,20 122,30 C158,40 178,58 190,85 C205,115 212,155 210,195 C208,220 200,242 185,250 C165,255 140,248 115,232 C85,212 60,182 42,150 C24,118 10,78 18,46Z"/>
-  <ellipse class="isl" cx="90" cy="170" rx="8" ry="14" transform="rotate(-20,90,170)"/>
-  <path class="isl" d="M218,208 C227,204 236,206 238,215 C236,224 226,226 217,221 C211,216 212,210 218,208Z"/>
+<!-- MAP -->
+<section class="slide" id="slide-map">
+  <div class="slide-header">
+    <div class="slide-label">Interactieve kaart</div>
+    <h2 class="slide-title">Onze Reisroute</h2>
+    <p class="slide-desc">Klik op een pin of gebruik de knoppen hieronder.</p>
+  </div>
+  <div class="map-container">
+    <div class="map-wrap">
+      <svg viewBox="0 0 680 390" xmlns="http://www.w3.org/2000/svg">
+        <rect class="ocean-bg" x="0" y="0" width="680" height="390" rx="0"/>
 
-  <!-- BORNEO -->
-  <path class="isl" d="M265,22 C310,6 372,4 418,20 C450,32 462,62 456,100 C448,142 428,175 398,195 C368,212 333,218 300,215 C265,208 236,190 220,163 C206,136 208,102 220,74 C232,48 248,32 265,22Z"/>
+        <!-- SUMATRA -->
+        <path class="isl" d="M15,40 C40,18 84,12 128,24 C166,36 188,58 200,90 C216,128 222,172 220,216 C218,244 208,268 190,276 C168,282 140,274 112,256 C80,234 54,198 36,160 C18,122 6,76 15,40Z"/>
+        <path class="isl" d="M224,220 C234,214 246,217 248,228 C246,238 234,241 223,235 C215,229 216,223 224,220Z"/>
 
-  <!-- JAVA -->
-  <path class="isl" d="M208,255 C238,244 282,244 325,252 C360,260 375,273 370,286 C350,293 308,291 264,282 C226,274 210,265 208,255Z"/>
+        <!-- BORNEO dimmed -->
+        <path class="isl-dim" d="M310,15 C352,0 410,0 452,16 C482,28 494,56 488,92 C480,132 460,164 430,182 C400,200 366,206 334,202 C300,195 272,178 257,152 C243,126 246,94 258,68 C270,44 288,26 310,15Z"/>
 
-  <!-- BALI -->
-  <path class="isl" d="M374,276 C383,270 393,272 396,280 C394,288 383,290 374,286 C368,282 369,277 374,276Z"/>
+        <!-- JAVA -->
+        <path class="isl" d="M195,272 C228,260 276,260 324,268 C362,276 382,290 376,304 C354,312 308,310 260,300 C220,291 198,280 195,272Z"/>
 
-  <!-- LOMBOK -->
-  <path class="isl" d="M400,277 C408,272 418,274 420,282 C418,290 408,293 399,288 C393,284 393,279 400,277Z"/>
+        <!-- BALI dimmed -->
+        <path class="isl-dim" d="M380,292 C390,285 401,288 403,297 C401,306 390,308 380,303 C374,298 375,294 380,292Z"/>
 
-  <!-- SUMBAWA -->
-  <path class="isl" d="M425,278 C439,272 455,275 458,283 C456,291 441,294 426,290 C416,286 416,281 425,278Z"/>
+        <!-- SULAWESI dimmed -->
+        <path class="isl-dim" d="M492,95 C506,82 530,84 538,103 C546,122 535,155 514,170 C498,184 478,176 472,157 C466,136 468,110 492,95Z"/>
+        <path class="isl-dim" d="M528,107 C546,93 568,95 574,113 C576,128 563,140 546,138 C532,136 524,122 528,107Z"/>
 
-  <!-- FLORES + KOMODO -->
-  <path class="isl" d="M462,280 C480,274 505,277 510,286 C507,294 488,297 464,292 C452,288 453,283 462,280Z"/>
+        <!-- Nias/Mentawai eilanden -->
+        <ellipse class="isl" cx="52" cy="192" rx="6" ry="10" transform="rotate(-15,52,192)"/>
+        <ellipse class="isl" cx="38" cy="218" rx="5" ry="9" transform="rotate(-15,38,218)"/>
 
-  <!-- TIMOR -->
-  <path class="isl" d="M526,292 C552,286 580,288 585,298 C582,307 556,311 528,306 C516,301 518,295 526,292Z"/>
+        <!-- Island labels -->
+        <text x="110" y="152" font-size="13" font-weight="600" font-family="Inter,sans-serif" fill="#1a5c3a" text-anchor="middle" opacity="0.55">SUMATRA</text>
+        <text x="283" y="287" font-size="11" font-weight="600" font-family="Inter,sans-serif" fill="#1a3a5c" text-anchor="middle" opacity="0.55">JAVA</text>
 
-  <!-- SULAWESI main -->
-  <path class="isl" d="M465,88 C480,74 506,76 515,96 C523,116 512,150 492,166 C476,180 456,172 450,153 C444,132 446,104 465,88Z"/>
-  <!-- NE arm -->
-  <path class="isl" d="M504,100 C522,86 547,88 554,106 C556,121 543,134 526,133 C512,131 503,117 504,100Z"/>
-  <!-- SW arm -->
-  <path class="isl" d="M458,152 C446,166 442,182 450,198 C457,213 472,217 480,208 C487,194 480,176 468,162Z"/>
-  <!-- SE arm -->
-  <path class="isl" d="M490,161 C506,163 524,174 529,190 C531,204 519,213 506,208 C493,203 487,188 490,161Z"/>
+        <!-- LEGEND -->
+        <rect x="14" y="340" width="148" height="38" rx="6" fill="white" fill-opacity="0.88"/>
+        <circle cx="28" cy="351" r="5" fill="#e76f51"/>
+        <text x="38" y="355" font-size="9" font-family="Inter,sans-serif" fill="#1a1a2e">Java bestemming</text>
+        <circle cx="28" cy="367" r="5" fill="#2d6a4f"/>
+        <text x="38" y="371" font-size="9" font-family="Inter,sans-serif" fill="#1a1a2e">Sumatra bestemming</text>
 
-  <!-- HALMAHERA -->
-  <path class="isl" d="M588,98 C600,86 616,88 620,106 C620,122 607,130 594,124 C583,117 582,108 588,98Z"/>
-  <path class="isl" d="M604,114 C616,110 628,116 628,128 C626,138 614,140 604,134 C598,128 598,118 604,114Z"/>
+        <!-- MARKERS JAVA -->
+        <g class="mloc" onclick="showD(0)">
+          <circle class="mpls" cx="218" cy="276" r="6" stroke="#e76f51"/>
+          <circle class="mdot" cx="218" cy="276" r="6" fill="#e76f51"/>
+          <text class="mlbl" x="218" y="265">Jakarta</text>
+        </g>
+        <g class="mloc" onclick="showD(1)">
+          <circle class="mpls" cx="252" cy="284" r="6" stroke="#e76f51"/>
+          <circle class="mdot" cx="252" cy="284" r="6" fill="#e76f51"/>
+          <text class="mlbl" x="252" y="296">Bandung</text>
+        </g>
+        <g class="mloc" onclick="showD(2)">
+          <circle class="mpls" cx="306" cy="280" r="6" stroke="#e76f51"/>
+          <circle class="mdot" cx="306" cy="280" r="6" fill="#e76f51"/>
+          <text class="mlbl" x="306" y="269">Yogyakarta</text>
+        </g>
+        <g class="mloc" onclick="showD(3)">
+          <circle class="mpls" cx="350" cy="278" r="6" stroke="#e76f51"/>
+          <circle class="mdot" cx="350" cy="278" r="6" fill="#e76f51"/>
+          <text class="mlbl" x="350" y="267">Mt. Bromo</text>
+        </g>
 
-  <!-- SERAM -->
-  <path class="isl" d="M614,190 C630,184 648,188 650,198 C648,208 630,212 615,206 C606,201 607,193 614,190Z"/>
+        <!-- MARKERS SUMATRA -->
+        <g class="mloc" onclick="showD(4)">
+          <circle class="mpls" cx="136" cy="66" r="6" stroke="#2d6a4f"/>
+          <circle class="mdot" cx="136" cy="66" r="6" fill="#2d6a4f"/>
+          <text class="mlbl" x="136" y="55">Medan</text>
+        </g>
+        <g class="mloc" onclick="showD(5)">
+          <circle class="mpls" cx="114" cy="96" r="6" stroke="#2d6a4f"/>
+          <circle class="mdot" cx="114" cy="96" r="6" fill="#2d6a4f"/>
+          <text class="mlbl" x="150" y="90">Bukit Lawang</text>
+        </g>
+        <g class="mloc" onclick="showD(6)">
+          <circle class="mpls" cx="108" cy="126" r="6" stroke="#2d6a4f"/>
+          <circle class="mdot" cx="108" cy="126" r="6" fill="#2d6a4f"/>
+          <text class="mlbl" x="80" y="117">Lake Toba</text>
+        </g>
+        <g class="mloc" onclick="showD(7)">
+          <circle class="mpls" cx="94" cy="180" r="6" stroke="#2d6a4f"/>
+          <circle class="mdot" cx="94" cy="180" r="6" fill="#2d6a4f"/>
+          <text class="mlbl" x="94" y="169">Bukittinggi</text>
+        </g>
+      </svg>
+    </div>
+  </div>
 
-  <!-- WAIGEO / RAJA AMPAT -->
-  <path class="isl" d="M630,115 C640,107 656,109 658,122 C656,134 643,136 631,130 C622,124 623,118 630,115Z"/>
-  <circle class="isl" cx="618" cy="136" r="5"/>
-  <circle class="isl" cx="646" cy="143" r="4"/>
+  <div class="info-panel" id="infopanel">
+    <div class="info-inner" id="infoinner"></div>
+  </div>
+  <div class="map-nav" id="mapnav"></div>
+</section>
 
-  <!-- PAPUA -->
-  <path class="isl" d="M645,148 C668,130 704,126 733,136 C762,146 788,166 804,190 C818,212 818,244 806,265 C792,285 764,298 733,298 C702,298 675,286 657,266 C640,248 634,222 638,198 C640,176 636,162 645,148Z"/>
-  <path class="isl" d="M645,148 C634,140 628,130 634,120 C644,112 660,118 668,132 C659,140 652,146 645,148Z"/>
+<!-- ROUTE CARDS -->
+<section class="slide" id="slide-route">
+  <div class="slide-header">
+    <div class="slide-label">Alle bestemmingen</div>
+    <h2 class="slide-title">Bestemmingen</h2>
+    <p class="slide-desc">Van Jakarta tot Bukittinggi — 8 bijzondere plekken in 21 dagen.</p>
+  </div>
+  <div class="route-grid" id="routegrid"></div>
+</section>
 
-  <!-- SMALL MALUKU -->
-  <circle class="isl" cx="566" cy="140" r="5"/>
-  <circle class="isl" cx="576" cy="162" r="4"/>
-  <circle class="isl" cx="558" cy="196" r="6"/>
+<!-- TIPS -->
+<section class="slide" id="slide-tips">
+  <div class="slide-header">
+    <div class="slide-label">Praktische informatie</div>
+    <h2 class="slide-title">Reisinformatie & Tips</h2>
+    <p class="slide-desc">Alles wat je moet weten voor een geweldige reis.</p>
+  </div>
+  <div class="tips-grid">
+    <div class="tip-card"><span class="tip-card-icon">✈️</span><div class="tip-card-title">Vlucht</div><div class="tip-card-text">Vertrek 13 juli naar Jakarta (CGK) — vlucht ca. 14–16u vanuit Keulen. Terugvlucht 2 augustus vanuit Medan (KNO) of Jakarta. Binnenlands vliegen met Garuda of Lion Air (Surabaya → Medan ca. €40).</div></div>
+    <div class="tip-card"><span class="tip-card-icon">🏠</span><div class="tip-card-title">Homestay & verblijf</div><div class="tip-card-text">Boek via Airbnb, Booking.com of lokaal. Zoek op "guesthouse" of "penginapan". In Bukit Lawang en Lake Toba zijn geweldige lokale homestays direct aan het water voor €10–25/nacht.</div></div>
+    <div class="tip-card"><span class="tip-card-icon">🦧</span><div class="tip-card-title">Orang-oetans Bukit Lawang</div><div class="tip-card-text">Boek een gecertificeerde gids via je homestay. Orang-oetans zijn wild maar gewend aan bezoekers. Trek van 2–4 uur door de jungle. Geen plastic of eten meenemen!</div></div>
+    <div class="tip-card"><span class="tip-card-icon">🤿</span><div class="tip-card-title">Snorkelen bij Padang</div><div class="tip-card-text">Pulau Sikuai en Pulau Cubadak (30 min van Padang) bieden prachtig snorkelen. Dagtour incl. boot ca. €25 p.p. Beste zicht: ochtend voor het wind opsteekt.</div></div>
+    <div class="tip-card"><span class="tip-card-icon">🏎️</span><div class="tip-card-title">Quad & Buggy Merapi</div><div class="tip-card-text">Bij Mount Merapi (Yogyakarta) rij je met een lava-jeep of quad door het stollingslavagebied. Tours van 1–3 uur, ca. €15–35. Meerdere operators bij Kaliurang. Boek via je guesthouse.</div></div>
+    <div class="tip-card"><span class="tip-card-icon">🍜</span><div class="tip-card-title">Street food must try</div><div class="tip-card-text">Nasi goreng, rendang, satay, gado-gado, martabak, soto ayam, bakso, nasi Padang, pisang goreng. Avondmarkten (pasar malam) zijn de beste plekken. Budget: €1–3 per maaltijd.</div></div>
+    <div class="tip-card"><span class="tip-card-icon">💰</span><div class="tip-card-title">Budget</div><div class="tip-card-text">Comfortabel reizen met homestays: ca. €50–70/dag per persoon (verblijf + eten + activiteiten). Jakarta en Bandung zijn duurder. Sumatra goedkoper dan Java.</div></div>
+    <div class="tip-card"><span class="tip-card-icon">📱</span><div class="tip-card-title">Simkaart</div><div class="tip-card-text">Koop Telkomsel op Jakarta vliegveld — beste dekking overal. 30GB ca. €5. WhatsApp werkt prima voor contacten met locals en gidsen.</div></div>
+    <div class="tip-card"><span class="tip-card-icon">🌡️</span><div class="tip-card-title">Klimaat juli/augustus</div><div class="tip-card-text">Juli–augustus is het droge seizoen op Java — ideaal! Sumatra is jaar-rond warm en vochtig. Temperatures 28–34°C kust, 20–25°C bergen (Bukittinggi, Bandung). Zonnebrand factor 50!</div></div>
+  </div>
+</section>
 
-  <!-- ========== MARKERS ========== -->
-
-  <!-- 0: Lake Toba / Sumatra -->
-  <g class="mloc" onclick="showD(0)">
-    <circle class="mpls" cx="128" cy="118" r="5" stroke="#D85A30"/>
-    <circle class="mdot" cx="128" cy="118" r="5" fill="#D85A30"/>
-    <text class="mlbl" x="128" y="110">Lake Toba</text>
-  </g>
-
-  <!-- 1: Jakarta -->
-  <g class="mloc" onclick="showD(1)">
-    <circle class="mpls" cx="248" cy="258" r="5" stroke="#D85A30"/>
-    <circle class="mdot" cx="248" cy="258" r="5" fill="#D85A30"/>
-    <text class="mlbl" x="248" y="250">Jakarta</text>
-  </g>
-
-  <!-- 2: Yogyakarta -->
-  <g class="mloc" onclick="showD(2)">
-    <circle class="mpls" cx="324" cy="265" r="5" stroke="#D85A30"/>
-    <circle class="mdot" cx="324" cy="265" r="5" fill="#D85A30"/>
-    <text class="mlbl" x="324" y="257">Yogyakarta</text>
-  </g>
-
-  <!-- 3: Bali -->
-  <g class="mloc" onclick="showD(3)">
-    <circle class="mpls" cx="384" cy="280" r="5" stroke="#D85A30"/>
-    <circle class="mdot" cx="384" cy="280" r="5" fill="#D85A30"/>
-    <text class="mlbl" x="384" y="272">Bali</text>
-  </g>
-
-  <!-- 4: Lombok -->
-  <g class="mloc" onclick="showD(4)">
-    <circle class="mpls" cx="409" cy="282" r="5" stroke="#D85A30"/>
-    <circle class="mdot" cx="409" cy="282" r="5" fill="#D85A30"/>
-    <text class="mlbl" x="420" y="274">Lombok</text>
-  </g>
-
-  <!-- 5: Komodo -->
-  <g class="mloc" onclick="showD(5)">
-    <circle class="mpls" cx="484" cy="286" r="5" stroke="#D85A30"/>
-    <circle class="mdot" cx="484" cy="286" r="5" fill="#D85A30"/>
-    <text class="mlbl" x="484" y="278">Komodo</text>
-  </g>
-
-  <!-- 6: Sulawesi -->
-  <g class="mloc" onclick="showD(6)">
-    <circle class="mpls" cx="483" cy="128" r="5" stroke="#D85A30"/>
-    <circle class="mdot" cx="483" cy="128" r="5" fill="#D85A30"/>
-    <text class="mlbl" x="483" y="120">Sulawesi</text>
-  </g>
-
-  <!-- 7: Raja Ampat -->
-  <g class="mloc" onclick="showD(7)">
-    <circle class="mpls" cx="643" cy="122" r="5" stroke="#D85A30"/>
-    <circle class="mdot" cx="643" cy="122" r="5" fill="#D85A30"/>
-    <text class="mlbl" x="643" y="114">Raja Ampat</text>
-  </g>
-
-</svg>
-</div>
-
-<div id="spanel"></div>
-
-<div class="snav" id="snav"></div>
-<div class="snlbl" id="snlbl"></div>
-
-</div>
+<footer>
+  Java & Sumatra — 13 Juli t/m 2 Augustus 2026 &nbsp;·&nbsp; <span>🌴 Samen op avontuur!</span>
+</footer>
 
 <script>
-const DS = [
+var DS = [
   {
-    name: 'Lake Toba, Sumatra', sub: 'Grootste vulkaanmeer ter wereld',
-    best: 'Jun–Sep', days: '3–4 dagen', type: 'Natuur & cultuur',
-    tip: 'Verblijf in een traditioneel Batak huis op Samosir eiland voor echte authenticiteit!',
-    acts: [
-      ['ti-waves','Zwemmen in het kratermeer'],
-      ['ti-home','Traditioneel Batak dorp bezoek'],
-      ['ti-mountain','Hiken op Samosir eiland'],
-      ['ti-music','Traditionele Batak muziek & dans'],
-      ['ti-fish','Vers gerookte Toba meervissen'],
-      ['ti-camera','Panoramafoto\'s vulkaan caldera'],
-    ]
+    idx:0, name:'Jakarta', sub:'Aankomst & eerste indrukken', island:'Java', islandClass:'java',
+    dates:'14–16 Juli', days:'2 nachten', type:'Stad & street food',
+    stay:'Guesthouse of homestay in Menteng of Kemang wijk — rustig en lokaal.',
+    food:['Soto Betawi','Gado-gado','Kerak Telor','Martabak'],
+    tip:'Avondmarkt Pasar Santa of Pasar Lama voor het allerbeste street food bij aankomst!',
+    highlight:'', highlightColor:'',
+    acts:['Kota Tua (Oud Batavia) verkennen','Nationaal Monument Monas','Nationaal Museum','Pasar malam street food avond','Istiqlal moskee & kathedraal','Dagtrip Duizend Eilanden (optioneel)']
   },
   {
-    name: 'Jakarta', sub: 'Bruisende metropool van Java',
-    best: 'Mei–Sep', days: '2–3 dagen', type: 'Stad & food',
-    tip: 'Ga vroeg naar Kota Tua (Oud Batavia) voordat de toeristenmassa arriveert!',
-    acts: [
-      ['ti-tower','Nationaal Monument (Monas)'],
-      ['ti-building','Kota Tua — Oud Batavia'],
-      ['ti-anchor','Duizend Eilanden dagtour'],
-      ['ti-star','Gado-gado & soto betawi proeven'],
-      ['ti-shopping-bag','Grand Indonesia winkelcentrum'],
-      ['ti-camera','Nationaal Museum Jakarta'],
-    ]
+    idx:1, name:'Bandung', sub:'Vulkanen, koffie & factory outlets', island:'Java', islandClass:'java',
+    dates:'16–18 Juli', days:'2 nachten', type:'Natuur & cultuur',
+    stay:'Historische villa-homestay in het koele Dago Pakar gebied (ca. 22°C).',
+    food:['Batagor','Siomay','Surabi','Kopi Bandung'],
+    tip:'Kawah Putih bezoek bij zonsopgang — kom voor 07:00 voor de prachtigste kleuren en geen drukte!',
+    highlight:'🌋 Kawah Putih kratermeer', highlightColor:'#e76f51',
+    acts:['Kawah Putih wit kratermeer','Tangkuban Perahu vulkaan','Dago Pakar wandelgebied','Factory outlet shoppen','Gedung Sate historisch gebouw','Lokale koffie & thee plantage']
   },
   {
-    name: 'Yogyakarta', sub: 'Culturele hoofdstad van Java',
-    best: 'Mei–Sep', days: '3–4 dagen', type: 'Tempels & kunst',
-    tip: 'Boek een zonsopgangsbezoek aan Borobudur — de mooiste tempel ter wereld!',
-    acts: [
-      ['ti-building','Borobudur — 9e eeuws boeddhistisch tempel'],
-      ['ti-building','Prambanan hindoe-tempel'],
-      ['ti-crown','Kraton Sultanenpaleis bezoek'],
-      ['ti-palette','Batik workshop zelf meedraaien'],
-      ['ti-flame','Mount Merapi vulkaantour'],
-      ['ti-shopping-bag','Malioboro marktstraat slenteren'],
-    ]
+    idx:2, name:'Yogyakarta', sub:'Borobudur, tempels & quad bij Merapi', island:'Java', islandClass:'java',
+    dates:'18–22 Juli', days:'4 nachten', type:'Cultuur & avontuur',
+    stay:'Traditioneel Javaans guesthouse in de Prawirotaman kunstenaarswijk.',
+    food:['Gudeg','Nasi Kucing','Bakpia','Sate Klathak'],
+    tip:'Boek de zonsopgangs-tour naar Borobudur een week van tevoren — dit is het hoogtepunt van heel Java!',
+    highlight:'🏎️ Quad/buggy bij Merapi', highlightColor:'#2d6a4f',
+    acts:['Borobudur — 9e eeuwse boeddhistische tempel','Prambanan hindoe-tempel','QUAD & BUGGY lava-tour Merapi','Kraton Sultanenpaleis','Batik workshop (ook voor kinderen!)',  'Malioboro marktstraat street food']
   },
   {
-    name: 'Bali', sub: 'Eiland der Goden',
-    best: 'Apr–Okt', days: '5–7 dagen', type: 'Cultuur & natuur',
-    tip: 'Huur een scooter om de rijstterrassen van Tegallalang bij zonsopgang te verkennen!',
-    acts: [
-      ['ti-building','Tanah Lot & Uluwatu tempel'],
-      ['ti-plant','Rijstterrassen Tegallalang (Ubud)'],
-      ['ti-waves','Surfen in Kuta & Seminyak'],
-      ['ti-heart','Balinese spa & yoga retreat'],
-      ['ti-mountain','Zonsopgang op Mount Agung'],
-      ['ti-star','Nasi goreng & babi guling proeven'],
-    ]
+    idx:3, name:'Mount Bromo', sub:'Meest spectaculaire vulkaan van Java', island:'Java', islandClass:'java',
+    dates:'22–24 Juli', days:'2 nachten', type:'Natuur & avontuur',
+    stay:'Eenvoudige homestay in Cemoro Lawang dorp recht aan de rand van de caldera.',
+    food:['Nasi goreng bij lokale warung','Verse soep bij zonsopgang','Gebakken maïs op de vulkaan'],
+    tip:'Sta om 03:30u op voor zonsopgang vanaf Penanjakan — het uitzicht over de "sea of sand" is onvergetelijk!',
+    highlight:'🌋 Zonsopgang boven de vulkaan', highlightColor:'#e76f51',
+    acts:['Zonsopgang Penanjakan uitkijkpunt','Wandelen door de lavasee','Klim naar de Bromo krater','Jeep tour door het zandlandschap','Tengger Semeru NP verkennen','Ijen vulkaan dagtrip (blauw vuur)']
   },
   {
-    name: 'Lombok & Gili Eilanden', sub: 'Strand, snorkelen & vulkaan',
-    best: 'Apr–Nov', days: '4–6 dagen', type: 'Strand & duiken',
-    tip: 'De Gili-eilanden zijn autovrij — ontdek ze per fiets of cidomo (paardenkar)!',
-    acts: [
-      ['ti-waves','Snorkelen bij Gili Trawangan'],
-      ['ti-mountain','Mount Rinjani trekking (3726m)'],
-      ['ti-sun','Senggigi & Kuta strand'],
-      ['ti-eye','Duiken bij Gili Meno'],
-      ['ti-users','Traditioneel Sasak dorp bezoek'],
-      ['ti-star','Zonsondergang bij Gili Air'],
-    ]
+    idx:4, name:'Medan', sub:'Gateway naar Noord-Sumatra', island:'Sumatra', islandClass:'sumatra',
+    dates:'24–25 Juli', days:'1 nacht', type:'Stad & transitpunt',
+    stay:'Guesthouse in het historische Chinese kwartier Kesawan.',
+    food:['Bika Ambon','Soto Medan','Mie Aceh','Durian (durf je?)'],
+    tip:'Vlieg vanuit Surabaya naar Medan (ca. 2u, €30–50). Medan is een transitpunt — avond street food en daarna door naar Bukit Lawang!',
+    highlight:'✈️ Fly-in vanuit Surabaya', highlightColor:'#5a6475',
+    acts:['Aankomst Medan vliegveld','Istana Maimun Sultanenpaleis','Mesjid Raya grote moskee','Kesawan street food avond','Tjong A Fie herenhuis','Voorbereiding trekking Bukit Lawang']
   },
   {
-    name: 'Komodo Nationaal Park', sub: 'Draken, duiken & roze strand',
-    best: 'Apr–Dec', days: '2–3 dagen', type: 'Wildlife & duiken',
-    tip: 'Boek een liveaboard voor de allerbeste duikervaringen rondom de eilanden!',
-    acts: [
-      ['ti-eye','Komodovaranen spotten'],
-      ['ti-sun','Pink Beach — roze zandstrand'],
-      ['ti-waves','Wereld-top scuba duiken'],
-      ['ti-fish','Snorkelen met mantaroggen'],
-      ['ti-mountain','Zonsopgang Padar eiland'],
-      ['ti-ship','Traditionele Phinisi boot cruise'],
-    ]
+    idx:5, name:'Bukit Lawang', sub:'🦧 Orang-oetans in het wild!', island:'Sumatra', islandClass:'sumatra',
+    dates:'25–27 Juli', days:'2 nachten', type:'Wildlife & jungle',
+    stay:'Eco-homestay direct aan de Bahorok rivier — val in slaap met junglegeluiden!',
+    food:['Nasi goreng jungle-stijl','Verse tropische vruchten','Lokale vissoep','Gember thee'],
+    tip:'Boek een GECERTIFICEERDE gids via je homestay (niet via de straat). Orang-oetans zijn beschermd — volg altijd de instructies van de gids op!',
+    highlight:'🦧 Orang-oetan jungle trekking', highlightColor:'#2d6a4f',
+    acts:['🦧 Orang-oetan jungle trekking (2–4u)','Wilde orang-oetans in hun habitat spotten','Tubing op de Bahorok rivier','Avondwandeling met nachtzicht','Vlindertuin & reptielenpark','Gunung Leuser NP biodiversiteit']
   },
   {
-    name: 'Sulawesi', sub: 'Toraja cultuur & Bunaken duiken',
-    best: 'Apr–Okt', days: '5–7 dagen', type: 'Cultuur & duiken',
-    tip: 'Bezoek Tana Toraja voor de unieke traditionele tongkonan huizen en begrafenisrituelen!',
-    acts: [
-      ['ti-home','Traditionele Toraja tongkonan huizen'],
-      ['ti-waves','Bunaken NP — wereld-top duiken'],
-      ['ti-fish','Makassar vismarkt & zeevruchten'],
-      ['ti-mountain','Lore Lindu NP trektocht'],
-      ['ti-camera','Rammang-rammang karstgebied'],
-      ['ti-star','Coto Makassar & konro proeven'],
-    ]
+    idx:6, name:'Lake Toba', sub:'Grootste vulkaanmeer ter wereld', island:'Sumatra', islandClass:'sumatra',
+    dates:'27–29 Juli', days:'2 nachten', type:'Natuur & cultuur',
+    stay:'Traditioneel Batak houten homestay op Samosir eiland — direct aan het meer.',
+    food:['Ikan mas arsik (kruidige vis)','Naniura (Batak rauw vis)','Saksang (varkensvlees)','Andaliman peper gerechten'],
+    tip:'Verblijf op Samosir eiland, niet in Parapat — de sfeer op het eiland is volledig anders en veel authentieker!',
+    highlight:'🏊 Zwemmen in het kratermeer', highlightColor:'#0e3f6e',
+    acts:['Zwemmen in het vulkaan kratermeer','Traditioneel Batak dorp bezoek','Hiken op Samosir eiland','Batak muziek & Sigale-gale dans','Kano tocht op het meer','Panoramafoto\'s bij zonsondergang']
   },
   {
-    name: 'Raja Ampat', sub: 'Biodiversiteitshotspot #1 ter wereld',
-    best: 'Okt–Apr', days: '7–10 dagen', type: 'Duiken & natuur',
-    tip: 'Sta vroeg op voor de paradijsvogel-vogelshow in de bomen bij Waigeo eiland!',
-    acts: [
-      ['ti-waves','Wereld-klasse duiken & snorkelen'],
-      ['ti-fish','Walvishaai & manta\'s spotten'],
-      ['ti-feather','Paradijsvogels vogelkijken'],
-      ['ti-map-pin','Kayak door karst boogjes'],
-      ['ti-home','Overwater bungalow verblijf'],
-      ['ti-moon','Bioluminescent plankton nacht'],
-    ]
-  },
+    idx:7, name:'Bukittinggi & Snorkelen', sub:'Minangkabau cultuur + eilanden', island:'Sumatra', islandClass:'sumatra',
+    dates:'29 Jul–2 Aug', days:'4 nachten', type:'Cultuur, natuur & snorkelen',
+    stay:'Traditioneel Minangkabau homestay met gebogen dakvorm in Bukittinggi centrum.',
+    food:['Rendang (origineel!)', 'Nasi Padang','Dendeng Balado','Sate Padang'],
+    tip:'Nasi Padang eet je door meerdere kleine schaaltjes te bestellen — proef rendang op zijn geboorteplek, dit is echt anders dan thuis!',
+    highlight:'🤿 Snorkelen Pulau Sikuai', highlightColor:'#0e3f6e',
+    acts:['🤿 Snorkelen bij Pulau Sikuai/Cubadak','Jam Gadang klokkentoren Bukittinggi','Ngarai Sianok Canyon wandeling','Traditioneel Minangkabau dorp','Harau vallei & watervallen','Terugvlucht 2 augustus vanuit Padang/Medan']
+  }
 ];
 
-let cur = -1;
+var TIMELINE = [
+  {date:'13 Juli', title:'Vertrek Keulen', desc:'Vlucht naar Jakarta — ca. 14–16 uur.', type:'travel', dot:'travel'},
+  {date:'14–16 Juli', title:'Jakarta', desc:'Aankomst, Kota Tua, Monas, street food avond.', type:'java', dot:'java', dIdx:0},
+  {date:'16–18 Juli', title:'Bandung', desc:'Kawah Putih kratermeer, Tangkuban Perahu vulkaan, koffie.', type:'java', dot:'java', dIdx:1},
+  {date:'18–22 Juli', title:'Yogyakarta', desc:'Borobudur zonsopgang, Prambanan, quad/buggy bij Merapi, batik.', type:'java', dot:'java', dIdx:2},
+  {date:'22–24 Juli', title:'Mount Bromo', desc:'Zonsopgang vulkaan, lavasee wandeling, jeep tour.', type:'java', dot:'java', dIdx:3},
+  {date:'24 Juli', title:'Vlucht Java → Sumatra', desc:'Surabaya naar Medan, ca. 2u vliegen.', type:'travel', dot:'travel'},
+  {date:'24–25 Juli', title:'Medan', desc:'Transitpunt, sultanenpaleis, street food avond.', type:'sumatra', dot:'sumatra', dIdx:4},
+  {date:'25–27 Juli', title:'Bukit Lawang', desc:'🦧 Orang-oetan jungle trekking, tubing op de rivier.', type:'sumatra', dot:'sumatra', dIdx:5},
+  {date:'27–29 Juli', title:'Lake Toba', desc:'Zwemmen in het kratermeer, Batak homestay op Samosir.', type:'sumatra', dot:'sumatra', dIdx:6},
+  {date:'29 Jul–2 Aug', title:'Bukittinggi & Snorkelen', desc:'🤿 Snorkelen Pulau Sikuai, rendang proeven, Harau vallei.', type:'sumatra', dot:'sumatra', dIdx:7},
+  {date:'2 Augustus', title:'Terugvlucht', desc:'Vlucht vanuit Padang of Medan terug naar Keulen.', type:'travel', dot:'travel'}
+];
+
+var dotColors = {java:'#e76f51', sumatra:'#2d6a4f', travel:'#9aaabb'};
+var topColors = {java:'linear-gradient(135deg,#0e3f6e,#1a6b8a)', sumatra:'linear-gradient(135deg,#1b5e3b,#2d9e5f)'};
+var actDotColors = {java:'#e76f51', sumatra:'#2d6a4f'};
+
+// Build timeline
+var tl = document.getElementById('timeline');
+TIMELINE.forEach(function(t, i) {
+  var item = document.createElement('div');
+  item.className = 'tl-item';
+  var card = '<div class="tl-card' + (t.dIdx !== undefined ? '" style="cursor:pointer" onclick="goTo(' + t.dIdx + ')' : '') + '">';
+  card += '<div class="tl-date ' + t.dot + '">' + t.date + '</div>';
+  card += '<div class="tl-name">' + t.title + '</div>';
+  card += '<div class="tl-acts">' + t.desc + '</div>';
+  if (t.dIdx !== undefined) card += '<div style="margin-top:6px;font-size:11px;color:var(--muted)">Klik voor details →</div>';
+  card += '</div>';
+  var dotHtml = '<div class="tl-dot ' + t.dot + '" style="background:' + dotColors[t.dot] + '"></div>';
+  if (i % 2 === 0) {
+    item.innerHTML = '<div class="tl-side">' + card + '</div>' + dotHtml + '<div class="tl-spacer"></div>';
+  } else {
+    item.innerHTML = '<div class="tl-spacer"></div>' + dotHtml + '<div class="tl-side">' + card + '</div>';
+  }
+  tl.appendChild(item);
+});
+
+function goTo(i) {
+  document.getElementById('slide-map').scrollIntoView({behavior:'smooth'});
+  setTimeout(function(){showD(i);}, 700);
+}
+
+var curD = -1;
 
 function showD(i) {
-  cur = i;
-  const d = DS[i];
-  document.querySelectorAll('.mdot').forEach((el, j) => el.setAttribute('fill', j === i ? '#185FA5' : '#D85A30'));
-  document.querySelectorAll('.mpls').forEach((el, j) => el.setAttribute('stroke', j === i ? '#185FA5' : '#D85A30'));
-  document.querySelectorAll('.sndot').forEach((el, j) => el.classList.toggle('on', j === i));
-  document.getElementById('snlbl').textContent = d.name;
+  curD = i;
+  var d = DS[i];
+  document.querySelectorAll('.mdot').forEach(function(el, j) {
+    el.setAttribute('fill', j === i ? '#185FA5' : (DS[j] && DS[j].islandClass === 'sumatra' ? '#2d6a4f' : '#e76f51'));
+    el.setAttribute('r', j === i ? '8' : '6');
+  });
+  document.querySelectorAll('.mpls').forEach(function(el, j) {
+    el.setAttribute('stroke', j === i ? '#185FA5' : (DS[j] && DS[j].islandClass === 'sumatra' ? '#2d6a4f' : '#e76f51'));
+  });
+  document.querySelectorAll('.map-nav-dot').forEach(function(el, j) { el.classList.toggle('on', j === i); });
 
-  const p = document.getElementById('spanel');
-  p.innerHTML =
-    '<div class="sphead">' +
-      '<div><div class="spname">' + d.name + '</div><div class="spsub">' + d.sub + '</div></div>' +
-      '<button class="spx" onclick="closeD()">✕ sluiten</button>' +
+  var actsHtml = d.acts.map(function(a) {
+    return '<div class="act-item"><div class="act-dot" style="background:' + actDotColors[d.islandClass] + '"></div>' + a + '</div>';
+  }).join('');
+  var foodHtml = d.food.map(function(f) { return '<div class="food-chip">🍽️ ' + f + '</div>'; }).join('');
+
+  document.getElementById('infoinner').innerHTML =
+    '<div class="info-top" style="' + topColors[d.islandClass] + '">' +
+      '<div><div class="info-island">' + d.island + ' · ' + d.dates + '</div>' +
+        '<div class="info-name">' + d.name + '</div>' +
+        '<div class="info-sub">' + d.sub + '</div></div>' +
+      '<button class="info-close" onclick="closeD()">✕ Sluiten</button>' +
     '</div>' +
-    '<div class="spmeta">' +
-      '<span class="sppill"><i class="ti ti-calendar" aria-hidden="true"></i>' + d.best + '</span>' +
-      '<span class="sppill"><i class="ti ti-clock" aria-hidden="true"></i>' + d.days + '</span>' +
-      '<span class="sppill"><i class="ti ti-star" aria-hidden="true"></i>' + d.type + '</span>' +
-    '</div>' +
-    '<div class="spalbl">Activiteiten &amp; hoogtepunten</div>' +
-    '<div class="spacts">' +
-      d.acts.map(function(a) { return '<div class="spact"><i class="ti ' + a[0] + '" aria-hidden="true"></i>' + a[1] + '</div>'; }).join('') +
-    '</div>' +
-    '<div class="sptip"><i class="ti ti-bulb" style="font-size:14px;vertical-align:-2px;margin-right:6px" aria-hidden="true"></i>Tip: ' + d.tip + '</div>';
-  p.classList.add('open');
+    '<div class="info-body">' +
+      '<div class="info-meta">' +
+        '<span class="meta-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>' + d.days + '</span>' +
+        '<span class="meta-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>' + d.type + '</span>' +
+      '</div>' +
+      '<div class="stay-box">🏠 <div><strong>Verblijf:</strong> ' + d.stay + '</div></div>' +
+      '<div class="info-section-title">Activiteiten & hoogtepunten</div>' +
+      '<div class="acts-grid">' + actsHtml + '</div>' +
+      '<div class="info-section-title">Street food & lokaal eten</div>' +
+      '<div class="food-row">' + foodHtml + '</div>' +
+      '<div class="tip-box">💡 <div><strong>Tip:</strong> ' + d.tip + '</div></div>' +
+    '</div>';
+
+  var panel = document.getElementById('infopanel');
+  panel.classList.add('open');
+  panel.scrollIntoView({behavior:'smooth', block:'nearest'});
 }
 
 function closeD() {
-  cur = -1;
-  document.getElementById('spanel').classList.remove('open');
-  document.querySelectorAll('.mdot').forEach(function(el) { el.setAttribute('fill', '#D85A30'); });
-  document.querySelectorAll('.mpls').forEach(function(el) { el.setAttribute('stroke', '#D85A30'); });
-  document.querySelectorAll('.sndot').forEach(function(el) { el.classList.remove('on'); });
-  document.getElementById('snlbl').textContent = '';
+  curD = -1;
+  document.getElementById('infopanel').classList.remove('open');
+  document.querySelectorAll('.mdot').forEach(function(el, j) {
+    el.setAttribute('fill', DS[j] && DS[j].islandClass === 'sumatra' ? '#2d6a4f' : '#e76f51');
+    el.setAttribute('r', '6');
+  });
+  document.querySelectorAll('.mpls').forEach(function(el, j) {
+    el.setAttribute('stroke', DS[j] && DS[j].islandClass === 'sumatra' ? '#2d6a4f' : '#e76f51');
+  });
+  document.querySelectorAll('.map-nav-dot').forEach(function(el) { el.classList.remove('on'); });
 }
 
-var nav = document.getElementById('snav');
+// Map nav
+var nav = document.getElementById('mapnav');
 DS.forEach(function(d, i) {
   var b = document.createElement('button');
-  b.className = 'sndot';
-  b.title = d.name;
-  b.setAttribute('aria-label', d.name);
+  b.className = 'map-nav-dot';
+  b.textContent = d.name.split(' & ')[0];
+  b.style.borderBottom = '3px solid ' + (d.islandClass === 'sumatra' ? '#2d6a4f' : '#e76f51');
   b.addEventListener('click', function() { showD(i); });
   nav.appendChild(b);
 });
+document.querySelectorAll('.map-nav-dot').forEach(function(el, j) {
+  el.style.setProperty('--on-bg', DS[j] && DS[j].islandClass === 'sumatra' ? '#2d6a4f' : '#0e3f6e');
+});
+document.querySelectorAll('.map-nav-dot.on').forEach(function(el, j) {
+  el.style.background = DS[j] && DS[j].islandClass === 'sumatra' ? '#2d6a4f' : '#0e3f6e';
+});
+
+// Route cards
+var grid = document.getElementById('routegrid');
+DS.forEach(function(d, i) {
+  var card = document.createElement('div');
+  card.className = 'route-card';
+  card.style.borderTop = '4px solid ' + (d.islandClass === 'sumatra' ? '#2d6a4f' : '#e76f51');
+  var highlightHtml = d.highlight ? '<div class="rc-highlight" style="background:' + (d.islandClass==='sumatra'?'#edf7f1':'#fff0ec') + ';color:' + d.highlightColor + ';border:1px solid ' + d.highlightColor + '30">' + d.highlight + '</div>' : '';
+  card.innerHTML =
+    '<div class="rc-island" style="background:' + (d.islandClass==='sumatra'?'#2d6a4f':'#0e3f6e') + '">' + d.island + '</div>' +
+    '<div class="rc-dates">' + d.dates + '</div>' +
+    '<div class="rc-name">' + d.name + '</div>' +
+    '<div class="rc-sub">' + d.sub + '</div>' +
+    '<div class="rc-meta"><span class="rc-pill">' + d.days + '</span><span class="rc-pill">' + d.type + '</span></div>' +
+    highlightHtml +
+    '<div class="rc-acts">' +
+      d.acts.slice(0,3).map(function(a){return '<div class="rc-act"><div class="rc-dot" style="background:' + (d.islandClass==='sumatra'?'#2d6a4f':'#e76f51') + '"></div>' + a + '</div>';}).join('') +
+      '<div class="rc-act" style="color:#b0bec5;font-style:italic">+ ' + (d.acts.length-3) + ' meer…</div>' +
+    '</div>';
+  card.addEventListener('click', function() {
+    document.getElementById('slide-map').scrollIntoView({behavior:'smooth'});
+    setTimeout(function(){showD(i);},600);
+  });
+  grid.appendChild(card);
+});
+
+// Nav active
+var sections = ['slide-cover','slide-timeline','slide-map','slide-route','slide-tips'];
+var navLinks = document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll', function() {
+  var pos = window.scrollY + 80;
+  sections.forEach(function(id, i) {
+    var el = document.getElementById(id);
+    if (el && pos >= el.offsetTop && pos < el.offsetTop + el.offsetHeight) {
+      navLinks.forEach(function(a){a.classList.remove('active')});
+      if (navLinks[i]) navLinks[i].classList.add('active');
+    }
+  });
+});
+
+// Fix nav dot active color dynamically
+document.addEventListener('click', function() {
+  document.querySelectorAll('.map-nav-dot.on').forEach(function(el, j) {
+    var idx = Array.from(document.querySelectorAll('.map-nav-dot')).indexOf(el);
+    el.style.background = DS[idx] && DS[idx].islandClass === 'sumatra' ? '#2d6a4f' : '#0e3f6e';
+    el.style.color = '#fff';
+  });
+});
 </script>
+</body>
+</html>
